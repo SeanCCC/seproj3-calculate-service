@@ -3,7 +3,6 @@ package hello;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.io.*;
 
@@ -125,7 +124,8 @@ public class Greeting {
         logger.addHandler(fileHandler);
         logger.info("received expression:"+content);
         this.id = id;
-        this.result = content+"="+solver(content);
+        if(id >= 0) this.result = content+"="+solver(content);
+        else this.result = "Please login first";
         logger.info("reporting the result:"+this.result);
     }
 

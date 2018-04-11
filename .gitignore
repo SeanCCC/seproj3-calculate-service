@@ -15,3 +15,5 @@ dependency-reduced-pom.xml
 README.html
 .idea
 logging.*
+login_log.*
+logout_log.*
