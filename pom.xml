@@ -29,10 +29,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180130</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
     </dependencies>
 
     <properties>

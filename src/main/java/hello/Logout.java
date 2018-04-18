@@ -15,19 +15,10 @@ public class Logout {
         FileHandler fileHandler = new FileHandler("./logout_log.log");
         fileHandler.setLevel(Level.INFO); //Log的層級
         logger.addHandler(fileHandler);
-//        System.out.println(""+idf+" "+pwd);
-
-        if (GreetingController.login){
-            GreetingController.login = false;
-            this.id = 1;
-            this.result = "logged out";
-            logger.info("logged out");
-        }
-        else {
-            this.id = 0;
-            this.result = "ask to log out while not logged in";
-            logger.info("ask to log out while not logged in");
-        }
+        GreetingController.userToken="";
+        this.id = 0;
+        this.result = "Go to localhost:8084?token={token} to logout";
+        logger.info("redir to oauth and clear buffer token");
 
     }
 

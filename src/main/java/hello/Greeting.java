@@ -1,5 +1,9 @@
 package hello;
 
+import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -12,6 +16,39 @@ public class Greeting {
     private final long id;
     private final String result;
     private static Logger logger = Logger.getLogger(Greeting.class.getName());
+
+    private int sendGet(String token) throws IOException {
+
+        String url = "http://localhost:8084/valid?token="+token;
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // optional default is GET
+        con.setRequestMethod("GET");
+
+        //add request header
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        System.out.println(response.toString());
+        JSONObject json = new JSONObject(response.toString());
+        return json.getInt("rvl");
+    }
 
     static int getOrder(char input){
         switch(input){
@@ -123,8 +160,15 @@ public class Greeting {
         fileHandler.setLevel(Level.INFO); //Log的層級
         logger.addHandler(fileHandler);
         logger.info("received expression:"+content);
-        this.id = id;
-        if(id >= 0) this.result = content+"="+solver(content);
+
+        int valid_result = sendGet(GreetingController.userToken);
+        if(valid_result==1) {
+            this.id=1;
+        }
+        else{
+            this.id=-1;
+        }
+        if(this.id >= 0) this.result = content+"="+solver(content);
         else this.result = "Please login first";
         logger.info("reporting the result:"+this.result);
     }
